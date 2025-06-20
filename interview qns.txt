@@ -1,0 +1,211 @@
+Here are the **interview questions with detailed answers** based on your **Customer Complaint Classification System** project:  
+
+---
+
+## **🔹 General Project Questions**
+### 1️⃣ **Can you give an overview of your Customer Complaint Classification System?**  
+✅ **Answer:**  
+This is a **Flask-based web application** that allows users to submit complaints related to products or services. The system uses a **BERT-based NLP model** to automatically classify complaints into predefined categories. An **admin dashboard** enables administrators to view categorized complaints and take action. It also includes **user authentication, file uploads (product photos), and complaint tracking** features.
+
+---
+
+### 2️⃣ **What problem does your project solve, and how is it useful in real-world applications?**  
+✅ **Answer:**  
+Many businesses receive **large volumes of customer complaints**. Manually categorizing them is time-consuming. My system **automates this process** using **Natural Language Processing (NLP)**, allowing businesses to:  
+- **Prioritize urgent complaints**  
+- **Automate responses**  
+- **Improve customer satisfaction**  
+
+This system can be integrated into **e-commerce platforms, customer support portals, and service industries**.
+
+---
+
+### 3️⃣ **What technologies did you use to develop this project?**  
+✅ **Answer:**  
+- **Frontend:** HTML, CSS, Bootstrap  
+- **Backend:** Flask (Python)  
+- **Database:** SQLite  
+- **Machine Learning:** BERT model for NLP  
+- **Authentication:** Flask sessions  
+- **File Handling:** Secure uploads using Flask  
+
+---
+
+## **🔹 Flask & Backend Questions**
+### 4️⃣ **How does Flask handle routing in your project?**  
+✅ **Answer:**  
+Flask uses decorators like `@app.route("/")` to define URL routes.  
+For example, the home page route:  
+```python
+@app.route("/")
+def home():
+    return render_template("index.html")  
+```
+Each route is mapped to a function that either **renders an HTML template** or **processes user input**.
+
+---
+
+### 5️⃣ **How did you implement user authentication in Flask?**  
+✅ **Answer:**  
+I used Flask **sessions** for user authentication. When a user logs in, their session stores their `user_id`:  
+```python
+@app.route("/login", methods=["POST"])
+def login():
+    session["user_id"] = user[0]  # Stores user ID in session
+```
+For admin authentication, I used **hardcoded credentials** for now but can integrate it with a database later.
+
+---
+
+### 6️⃣ **How does Flask handle sessions, and how are they used in your project?**  
+✅ **Answer:**  
+Flask **sessions** store temporary user data using cookies. I use them to keep users logged in:  
+```python
+session["user_id"] = user_id  # Stores logged-in user ID
+```
+To log out, I **clear the session**:  
+```python
+session.clear()  
+```
+This ensures secure authentication.
+
+---
+
+### 7️⃣ **How did you manage user roles (admin vs. user) in your application?**  
+✅ **Answer:**  
+- **Users** can **sign up, log in, submit complaints, and track their submissions**.  
+- **Admins** log in separately and have **access to complaint categorization, user management, and resolution tracking**.  
+
+I use Flask sessions to differentiate roles:  
+```python
+if "admin" in session:
+    return redirect(url_for("admin_dashboard"))
+else:
+    return redirect(url_for("login"))
+```
+
+---
+
+### 8️⃣ **How does your project store complaints, and how do you retrieve them?**  
+✅ **Answer:**  
+Complaints are stored in an **SQLite database** with columns like `text`, `category`, `user_id`, `submission_date`.  
+To retrieve complaints:  
+```python
+cursor.execute("SELECT * FROM complaints WHERE user_id = ?", (session["user_id"],))
+```
+This fetches **only complaints related to the logged-in user**.
+
+---
+
+### 9️⃣ **How do you handle file uploads securely in Flask?**  
+✅ **Answer:**  
+- Used `secure_filename()` to prevent malicious uploads.  
+- Stored files in a restricted directory (`static/uploads`).  
+- Allowed only specific file types (e.g., PNG, JPG).  
+
+Example code:  
+```python
+if product_photo and product_photo.filename:
+    filename = secure_filename(product_photo.filename)
+    product_photo.save(os.path.join("static/uploads", filename))
+```
+
+---
+
+## **🔹 NLP & Machine Learning (BERT Model)**
+### 1️⃣0️⃣ **Why did you choose BERT for complaint classification instead of other models?**  
+✅ **Answer:**  
+BERT (Bidirectional Encoder Representations from Transformers) is **state-of-the-art for NLP** and understands **context better than traditional models** like TF-IDF or Naïve Bayes. It helps classify complaints accurately even with **complex sentence structures**.
+
+---
+
+### 1️⃣1️⃣ **How does BERT process and classify text in your project?**  
+✅ **Answer:**  
+- **Tokenization:** Converts text into numerical tokens using `BertTokenizer`.  
+- **Embedding & Attention:** BERT analyzes word relationships in context.  
+- **Prediction:** Outputs a category label.  
+
+Example classification function:  
+```python
+inputs = tokenizer(text, return_tensors="pt", truncation=True, padding="max_length", max_length=256)
+outputs = model(**inputs)
+category_id = torch.argmax(outputs.logits, dim=1).item()
+return category_mapping.get(category_id, "Unknown")
+```
+
+---
+
+### 1️⃣2️⃣ **What preprocessing steps did you apply to the complaint text before passing it to BERT?**  
+✅ **Answer:**  
+1. **Lowercasing** the text  
+2. **Removing special characters** (e.g., `@`, `#`, punctuation)  
+3. **Tokenization** using `BertTokenizer`  
+4. **Padding & truncation** for uniform input length  
+
+---
+
+### 1️⃣3️⃣ **How does your model handle complaints that do not fit into predefined categories?**  
+✅ **Answer:**  
+If a complaint doesn’t match an existing category, the model returns `"Unknown"`, and the admin can manually review it.  
+To improve this, I could add a **fallback category** like `"Other Complaints"`.
+
+---
+
+## **🔹 Database & Data Handling (SQLite)**
+### 1️⃣4️⃣ **Why did you choose SQLite for this project?**  
+✅ **Answer:**  
+- **Lightweight & easy to use**  
+- **No separate server required**  
+- **Works well for small-scale applications**  
+
+However, for **scalability**, I would use **PostgreSQL or MySQL**.
+
+---
+
+### 1️⃣5️⃣ **How do you prevent SQL injection in your project?**  
+✅ **Answer:**  
+I use **parameterized queries** to prevent SQL injection:  
+```python
+cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+```
+This ensures user input is **not directly concatenated** into SQL queries.
+
+---
+
+## **🔹 Frontend & UI/UX**
+### 1️⃣6️⃣ **How does the admin dashboard display categorized complaints?**  
+✅ **Answer:**  
+The dashboard **fetches complaints from the database** and displays them in a table:  
+```html
+{% for complaint in complaints %}
+<tr>
+    <td>{{ complaint.full_name }}</td>
+    <td>{{ complaint.text }}</td>
+    <td>{{ complaint.category }}</td>
+</tr>
+{% endfor %}
+```
+Each complaint has a **"View Details"** button to see full information.
+
+---
+
+## **🔹 Deployment & Future Enhancements**
+### 1️⃣7️⃣ **How would you scale this project to handle millions of users?**  
+✅ **Answer:**  
+1. **Switch SQLite to PostgreSQL or MongoDB**  
+2. **Deploy on AWS or Google Cloud**  
+3. **Use caching (Redis) for fast query performance**  
+4. **Optimize BERT with model distillation for faster inference**  
+
+---
+
+### 1️⃣8️⃣ **What additional features would you add to improve this system?**  
+✅ **Answer:**  
+1. **Real-time notifications** when a complaint is resolved  
+2. **Chatbot integration** for auto-responses  
+3. **Multi-language support** using NLP translation models  
+4. **Sentiment analysis** to detect user emotions  
+
+---
+
+These **detailed answers** will help you **confidently explain your project** in an interview! 🚀🔥 Let me know if you need more clarifications. 😊

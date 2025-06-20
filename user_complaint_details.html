@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Complaint Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>User Complaint Details</h1>
+
+        <div class="user-info">
+            <p><strong>Full Name:</strong> {{ user.full_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Address:</strong> {{ user.address }}</p>
+            <p><strong>Mobile:</strong> {{ user.mobile }}</p>
+            <p><strong>Product Rating:</strong> {{ user.rating }}/5</p>
+            {% if user.product_photo %}
+            <p><strong>Product Photo:</strong></p>
+            <img src="{{ url_for('static', filename='uploads/' + user.product_photo) }}" alt="Product Image" class="product-image">
+            {% endif %}
+        </div>
+
+        <h2>Complaint Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Submission Date</th>
+                    <th style="padding-right:30px;">Complaint</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ complaint.submission_date }}</td>
+                    <td style="padding-right:30px;">{{ complaint.text }}</td>
+                    <td>{{ complaint.category }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('admin_dashboard') }}" class="btn">Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

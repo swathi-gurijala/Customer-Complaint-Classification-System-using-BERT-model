@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <h2>Complaint Details</h2>
+
+    <table border="1">
+        <tr>
+            <th>Complaint ID</th>
+            <td>{{ complaint[0] }}</td>
+        </tr>
+        <tr>
+            <th>Complaint Text</th>
+            <td>{{ complaint[1] }}</td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td>{{ complaint[2] }}</td>
+        </tr>
+        <tr>
+            <th>User Name</th>
+            <td>{{ complaint[3] or 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ complaint[4] or 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td>{{ complaint[5] or 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Mobile</th>
+            <td>{{ complaint[6] or 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Rating</th>
+            <td>{{ complaint[7] or 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Product Photo</th>
+            <td>
+                {% if complaint[8] %}
+                    <img src="{{ url_for('static', filename='uploads/' + complaint[8]) }}" alt="Product Photo" width="200">
+                {% else %}
+                    No Photo Uploaded
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+
+</body>
+</html>

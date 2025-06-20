@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Complaint System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to Customer Complaint Classification System</h1>
+        <p>Submit complaints and let us handle them with care.</p>
+        <a href="{{ url_for('signup') }}" class="btn">user Sign Up</a>
+        <a href="{{ url_for('login') }}" class="btn">user Login</a>
+        <a href="{{ url_for('admin_login') }}">
+            <button class="admin-btn">Admin Login</button>
+        </a>
+        
+
+    </div>
+
+</body>
+</html>

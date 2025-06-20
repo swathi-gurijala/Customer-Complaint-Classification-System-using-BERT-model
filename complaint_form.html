@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Complaint</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Submit a Complaint</h2>
+    <form action="{{ url_for('complaint_form') }}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <label for="complaint">Complaint:</label>
+        <textarea name="complaint" id="complaint" required></textarea>
+    
+        <label for="product_rating">Product Rating (1-5):</label>
+        <input type="number" name="product_rating" id="product_rating" min="1" max="5">
+    
+        <label for="service_rating">Service Rating (1-5):</label>
+        <input type="number" name="service_rating" id="service_rating" min="1" max="5">
+    
+        <label for="product_photo">Upload Product Photo:</label>
+        <input type="file" name="product_photo" accept="image/*">
+    
+        <p id="error-message" style="color: red;"></p>
+    
+        <button type="submit">Submit Complaint</button>
+    </form>
+    
+    <script>
+    function validateForm() {
+        let rating = document.getElementById("product_rating").value;
+        let service = document.getElementById("service_rating").value;
+        let errorMessage = document.getElementById("error-message");
+    
+        if (rating === "" || service === "") {
+            errorMessage.textContent = "Please provide both product and service ratings.";
+            return false; // Prevent form submission
+        }
+        return true;
+    }
+    </script>
+    
+    
+</body>
+</html>
+
+
+
