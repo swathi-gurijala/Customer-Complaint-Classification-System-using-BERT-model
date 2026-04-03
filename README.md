@@ -1,19 +1,19 @@
 ## Project Screenshots
 
 ### Login Page
-![Login](login.png)
+![Login](UI_images/login.png)
 
 ### Signup Page
-![Signup](signup.png)
+![Signup](UI_images/signup.png)
 
 ### Admin Dashboard
-![Admin Dashboard](admin_dashboard.png)
+![Admin Dashboard](UI_images/admin_dashboard.png)
 
 ### User Dashboard
-![User Dashboard](user_dashboard.png)
+![User Dashboard](UI_images/user_dashboard.png)
 
 ### User Complaint Details
-![User Complaint Details](user_compliant_details.png)
+![User Complaint Details](UI_images/user_compliant_details.png)
 
 ### Customer Complaint
-![Customer Complaint](customer_complaint.png)
+![Customer Complaint](UI_images/customer complaint.png)
