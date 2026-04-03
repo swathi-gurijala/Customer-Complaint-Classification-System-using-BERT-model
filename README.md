@@ -16,4 +16,4 @@
 ![User Complaint Details](UI_images/user_compliant_details.png)
 
 ### Customer Complaint
-![Customer Complaint](UI_images/customer complaint.png)
+![Customer Complaint](UI_images/customer_complaint.png)
